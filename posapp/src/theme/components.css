@@ -1538,6 +1538,11 @@
   flex: 1;
 }
 
+.pos-terminal-cart-pane {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 /* The desktop shell uses a vertical icon rail and a two-pane terminal. On a
    phone, reclaim that horizontal space and let the route content scroll above
    a thumb-friendly bottom navigation bar. */
@@ -1671,6 +1676,18 @@
   .pos-terminal-pane > .pos-items-panel {
     flex: 1 1 auto !important;
     height: auto !important;
+  }
+
+  .pos-terminal-cart-pane > .cart-section {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 100%;
+  }
+
+  .pos-terminal-cart-pane > .cart-section > .cart-section-card {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
   }
 
   .pos-list-table-scroll {
