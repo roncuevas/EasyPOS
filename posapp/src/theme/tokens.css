@@ -69,6 +69,17 @@
   /* Layout */
   --sidebar-width: 64px;
   --topbar-height: 56px;
+  --terminal-tab-gap: 4px;
+  --terminal-tab-padding-x: 14px;
+  --terminal-tab-padding-y: 9px;
+  --terminal-tab-icon-gap: 6px;
+  --terminal-tab-count-padding-x: 6px;
+  --terminal-tab-count-padding-y: 2px;
+  --terminal-mobile-item-icon: 48px;
+  --terminal-mobile-item-height: 64px;
+  --terminal-mobile-item-gap: 10px;
+  --terminal-mobile-item-padding-x: 8px;
+  --terminal-mobile-item-padding-y: 6px;
 }
 
 /* Dark mode — mirrors every app-surface/text/status/border token above.
