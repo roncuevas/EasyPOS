@@ -791,6 +791,16 @@
   font-family: var(--font-mono);
 }
 
+.pos-list-table-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.pos-list-table-body {
+  min-height: 0;
+}
+
 .pos-table-footer span {
   font-family: var(--font-body);
   font-size: 12.5px;
@@ -1468,6 +1478,229 @@
 @media (prefers-reduced-motion: reduce) {
   .pos-toast {
     animation: none !important;
+  }
+}
+
+/* Mobile shell ----------------------------------------------------------- */
+/* The desktop shell uses a vertical icon rail and a two-pane terminal. On a
+   phone, reclaim that horizontal space and let the route content scroll above
+   a thumb-friendly bottom navigation bar. */
+@media (max-width: 599px) {
+  .pos-app-shell {
+    padding-bottom: 60px;
+  }
+
+  .pos-sidebar {
+    position: fixed;
+    z-index: 1030;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0;
+    flex-direction: row;
+    align-items: stretch;
+    box-shadow: 0 -4px 16px rgba(16, 20, 28, 0.14);
+  }
+
+  .pos-sidebar-logo,
+  .pos-sidebar > .pos-avatar {
+    display: none;
+  }
+
+  .pos-sidebar-nav {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .pos-sidebar-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pos-sidebar-item {
+    flex: 0 0 52px;
+    width: 52px;
+    min-height: 60px;
+    align-items: center;
+    padding: 0;
+  }
+
+  .pos-sidebar-item i {
+    font-size: 18px;
+  }
+
+  .pos-sidebar-item.active::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 5px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--color-primary);
+  }
+
+  .pos-sidebar-item span {
+    right: 5px !important;
+    top: 10px !important;
+  }
+
+  .pos-topbar {
+    min-height: var(--topbar-height);
+    height: auto;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .pos-topbar > .d-flex:first-child {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 6px !important;
+  }
+
+  .pos-topbar-title {
+    font-size: 14px;
+  }
+
+  .pos-search,
+  .pos-search.has-scan {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .pos-topbar > .d-flex:last-child {
+    gap: 6px !important;
+  }
+
+  .pos-status-pill {
+    width: 16px;
+    padding: 0;
+    justify-content: center;
+    font-size: 0;
+  }
+
+  .pos-topbar .pos-btn-secondary {
+    width: 32px;
+    padding: 0 !important;
+    font-size: 0 !important;
+  }
+
+  .pos-topbar .pos-btn-secondary i {
+    font-size: 15px;
+  }
+
+  .pos-route-content {
+    padding-bottom: 12px;
+  }
+
+  .pos-terminal-panels {
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 10px 10px 14px !important;
+    gap: 10px !important;
+  }
+
+  .pos-items-panel {
+    flex: 0 0 min(54vh, 520px) !important;
+    height: min(54vh, 520px) !important;
+    padding: 10px !important;
+  }
+
+  .pos-list-table-scroll {
+    overflow: auto;
+  }
+
+  .pos-list-table-scroll > .pos-table-head,
+  .pos-list-table-body > .pos-table-row {
+    min-width: 560px;
+  }
+
+  .cart-line {
+    gap: 6px;
+    padding: 8px 6px;
+  }
+
+  .cart-line-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cart-line-qty {
+    gap: 3px;
+  }
+
+  .cart-line-qty button,
+  .cart-line-remove {
+    width: 30px;
+    height: 30px;
+  }
+
+  .cart-line-amount {
+    min-width: 48px;
+    font-size: 12px;
+  }
+
+  .cart-line-detail {
+    gap: 10px;
+    padding-left: 12px;
+  }
+
+  .cart-section {
+    flex: 0 0 min(58vh, 560px);
+    width: 100%;
+    height: min(58vh, 560px);
+  }
+
+  .cart-section-card {
+    min-height: 100%;
+  }
+
+  .pos-item-card {
+    padding: 8px;
+  }
+
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+
+  .modal-dialog.modal-xl,
+  .modal-dialog.modal-lg,
+  .modal-dialog.modal-md {
+    max-width: none;
+  }
+
+  .modal-body {
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 380px) {
+  .pos-sidebar-item {
+    flex-basis: 48px;
+    width: 48px;
+  }
+
+  .pos-topbar {
+    padding-inline: 9px;
+  }
+
+  .pos-topbar > .d-flex:last-child {
+    gap: 3px !important;
+  }
+
+  .pos-user-trigger {
+    padding-right: 0;
+  }
+
+  .pos-user-trigger-caret {
+    display: none;
   }
 }
 

@@ -329,7 +329,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
 
   return (
     <div
-      className="pos-card"
+      className="pos-card pos-items-panel"
       style={{ flex: 1, padding: 14, minWidth: 0, height: "100%", display: "flex", flexDirection: "column", minHeight: 0 }}
     >
       <div

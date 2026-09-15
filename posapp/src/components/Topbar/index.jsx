@@ -80,6 +80,7 @@ const Topbar = ({ title, searchValue, onSearchChange, searchPlaceholder = "Searc
               style={{ height: 30, fontSize: 12, padding: "0 12px" }}
               onClick={() => setShowClosingModal(true)}
             >
+              <i className="bi bi-box-arrow-right" />
               Close shift
             </button>
           )}

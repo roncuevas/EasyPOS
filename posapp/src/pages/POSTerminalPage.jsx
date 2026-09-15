@@ -40,7 +40,7 @@ const POSTerminalPage = () => {
         <ItemGroup selectedGroup={activeItemGroup} onChangeGroup={setActiveItemGroup} />
       </div>
 
-      <div style={{ flex: 1, display: "flex", padding: "12px 16px 16px", gap: 16, minHeight: 0 }}>
+      <div className="pos-terminal-panels" style={{ flex: 1, display: "flex", padding: "12px 16px 16px", gap: 16, minHeight: 0 }}>
         <Items
           selectedGroup={activeItemGroup}
           searchText={searchText}

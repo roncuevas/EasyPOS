@@ -22,7 +22,7 @@ const AppLayout = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+    <div className="pos-app-shell" style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
       <Sidebar />
 
       <div
@@ -44,7 +44,7 @@ const AppLayout = () => {
           onScanClick={topbar.onScanClick}
         />
 
-        <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflowY: "auto" }}>
+        <div className="pos-route-content" style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", overflowY: "auto" }}>
           <Outlet context={{ setTopbar }} />
         </div>
       </div>
