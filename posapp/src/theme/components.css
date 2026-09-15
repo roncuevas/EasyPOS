@@ -1485,7 +1485,7 @@
 .pos-terminal-tabs {
   display: flex;
   gap: var(--terminal-tab-gap);
-  padding: 10px 16px 0;
+  padding: var(--terminal-tab-padding-top) var(--terminal-tab-padding-inline) 0;
   flex-shrink: 0;
   border-bottom: 1px solid var(--color-border-soft);
 }
@@ -1495,7 +1495,7 @@
   border-bottom: 2px solid transparent;
   background: transparent;
   color: var(--color-text-muted);
-  padding: var(--terminal-tab-padding-y) var(--terminal-tab-padding-x) 10px;
+  padding: var(--terminal-tab-padding-y) var(--terminal-tab-padding-x) var(--terminal-tab-padding-bottom);
   font-size: 12px;
   font-weight: 600;
 }
@@ -1510,9 +1510,9 @@
 }
 
 .pos-terminal-tab-count {
-  margin-left: 6px;
+  margin-left: var(--terminal-tab-count-gap);
   padding: var(--terminal-tab-count-padding-y) var(--terminal-tab-count-padding-x);
-  border-radius: 999px;
+  border-radius: var(--terminal-tab-count-radius);
   background: var(--color-primary);
   color: var(--color-on-primary);
   font-size: 10px;
@@ -1524,7 +1524,7 @@
   min-width: 0;
   min-height: 0;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--terminal-pane-gap);
 }
 
 .pos-terminal-pane > .pos-items-panel {
@@ -1745,10 +1745,10 @@
 
   .pos-item-card {
     display: grid;
-    grid-template-columns: 48px minmax(0, 1fr) auto;
+    grid-template-columns: var(--terminal-mobile-item-icon) minmax(0, 1fr) auto;
     grid-template-rows: 1fr auto;
     column-gap: var(--terminal-mobile-item-gap);
-    row-gap: 2px;
+    row-gap: var(--terminal-mobile-item-row-gap);
     align-items: center;
     text-align: left;
     height: var(--terminal-mobile-item-height);
