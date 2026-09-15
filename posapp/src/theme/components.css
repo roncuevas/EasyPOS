@@ -1665,6 +1665,40 @@
     padding: 8px;
   }
 
+  .pos-item-card {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    grid-template-rows: 1fr auto;
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: center;
+    text-align: left;
+    height: 64px;
+    padding: 6px 8px;
+  }
+
+  .pos-item-icon {
+    grid-row: 1 / span 2;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+  }
+
+  .pos-item-name,
+  .pos-item-price-row {
+    grid-column: 2;
+  }
+
+  .pos-item-price-row {
+    margin-top: 0;
+  }
+
+  .pos-item-stepper {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    margin: 0;
+  }
+
   .modal-dialog {
     margin: 0.5rem;
   }

@@ -5,7 +5,8 @@ import useCartStore from "../../store/cartStore";
 import usePOSSessionStore from "../../store/posSessionStore";
 import ItemVariantModal from "./ItemVariantModal";
 
-const CARD_HEIGHT = 150; // actual card content is ~138.5px tall — must exceed that or virtualized rows overlap
+const CARD_HEIGHT = 150;
+const MOBILE_ROW_HEIGHT = 72;
 const CARD_MIN_WIDTH = 150; // px, includes gap — drives responsive column count
 const GRID_GAP = 10;
 const SEARCH_DEBOUNCE_MS = 300;
@@ -216,8 +217,10 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
 
   const columns = useMemo(() => {
     if (!containerWidth) return 4;
+    if (containerWidth < 600) return 1;
     return Math.max(2, Math.min(8, Math.floor((containerWidth + GRID_GAP) / (CARD_MIN_WIDTH + GRID_GAP))));
   }, [containerWidth]);
+  const rowHeight = columns === 1 ? MOBILE_ROW_HEIGHT : CARD_HEIGHT;
 
   // Summed rather than a straight item_code → qty map — a serial/batch
   // tracked item can have several rows for the same item_code (one per
@@ -321,7 +324,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
 
   const { visibleRange, totalHeight, onScroll } = useVirtualScroll({
     totalRows: rows.length,
-    rowHeight: CARD_HEIGHT,
+    rowHeight,
     containerRef,
   });
 
@@ -358,9 +361,9 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
                 key={rowIndex}
                 style={{
                   position: "absolute",
-                  top: rowIndex * CARD_HEIGHT,
+                  top: rowIndex * rowHeight,
                   width: "100%",
-                  height: CARD_HEIGHT,
+                  height: rowHeight,
                   display: "grid",
                   gridTemplateColumns: `repeat(${columns}, 1fr)`,
                   gap: GRID_GAP,
