@@ -445,7 +445,7 @@ const Cart = () => {
           </div>
 
           {/* ── Cart Items ── */}
-          <div className="d-flex flex-column" style={{ flex: 1, minHeight: 0 }}>
+          <div className="cart-items-panel d-flex flex-column">
 
             {/* Toolbar */}
             <div className="d-flex align-items-center justify-content-between px-3 pt-2 pb-1">

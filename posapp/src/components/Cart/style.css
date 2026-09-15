@@ -43,6 +43,15 @@
   color: var(--color-text-faint);
 }
 
+/* Keep the product list as the primary cart area.  Without a flex basis the
+   discount controls can consume most of the available height on short tills,
+   leaving Cart Items as a tiny strip underneath them. */
+.cart-items-panel {
+  flex: 1 1 32vh;
+  min-height: 240px;
+  min-width: 0;
+}
+
 .cart-clear-btn {
   display: inline-flex;
   align-items: center;
