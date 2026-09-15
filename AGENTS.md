@@ -49,6 +49,38 @@ These rules are ported from `CLAUDE.md` and apply to all Easy POS work:
 - After frontend edits run `yarn lint`; after build-sensitive edits run `yarn build`. Run relevant bench tests and `pre-commit run --all-files` before submission when available.
 - Keep changes atomic, use Conventional Commit subjects, inspect Git state before committing, and report exact branch/ahead-behind/push status. Do not commit secrets or generated dependencies.
 
+### UI alignment and shared components
+
+- `.pos-field` has a default bottom margin; when a field is beside text, chips, or buttons, reset the outer wrapper margin in scoped CSS. A field's `className` affects the inner control, not the wrapper.
+- For visual alignment, match sibling `min-height` values and use `display: flex; align-items: center`; `align-items` alone does not compensate for different wrapper heights.
+- When fixing a screenshot-reported UI problem, measure the rendered boxes with `getBoundingClientRect()` before changing CSS and after the fix.
+- Use shared `PageLoader`, `PageHeader`, `ErrorAlert`, `SaveButton`, `FormView`, `DetailField`, and `ChildTable` for detail pages. Use `common/ListTable`, `FilterChips`, `Pagination`, and the established debounced list-page pattern for list pages.
+- `TextField` and `DateField` call `onChange` with the value, not a DOM event. Do not read `event.target.value` from them.
+- Reuse `.pos-table-head`, `.pos-table-row`, and `.pos-table-footer`; include explicit grid gaps. A `rowStyle` callback returns `null` for normal rows so it does not suppress hover/zebra styles with inline CSS.
+- Check every new active/selected state and hardcoded color in light and dark themes. Use primary/on-primary for selected states; chart SVG colors must contrast on both backgrounds.
+
+### ERPNext, shifts, invoices, and reports
+
+- Payment modes always come from the POS Profile `payments` child table, never from an opening-entry `balance_details` snapshot.
+- Closing behavior is per payment mode through `ep_automatically_calculated`, not a profile-wide switch. Shift aggregation uses `Sales Invoice.custom_ep_opening_entry`; `EP Opening Entry` links to closing through `ep_closing_entry`.
+- Renaming a DocType field requires a companion patch that copies existing database values; editing JSON alone is insufficient.
+- Use `ConfirmModal` for destructive actions. Credit notes must preserve `is_pos`, `pos_profile`, and `custom_ep_opening_entry`; propagate user-visible backend errors instead of swallowing them.
+- Use compact custom layouts for report cards that are too narrow for `ChildTable`. Every page rendered inside `AppLayout` must call `setTopbar()` on mount.
+- Flag unrelated installed-app/backend defects instead of fixing them inline during a scoped frontend task.
+
+### PWA, offline, held sales, and customer display
+
+- `SyncPage` is a preview only: no RxDB/IndexedDB, offline queue, or real sync state exists. Do not build features against its hardcoded data.
+- PWA caching is limited to the static app shell. Keep the custom service-worker endpoint/scope arrangement, keep `window.pos_boot` as direct Jinja JSON, and never cache `/api/` responses.
+- Held/parked sales are Draft Sales Invoices and use `DraftPickerModal`; do not invent a separate hold status or storage model.
+- Customer display uses `BroadcastChannel` only between same-origin tabs on the same register machine. Scope channels by POS Profile, load the opening entry independently in the display tab, and ignore cart-reset broadcasts while the thank-you view is active.
+
+### Payment gateways and browser behavior
+
+- Payment gateways use the backend/frontend registries and the common `{ name, pay(ctx) }` interface; `InvoicePay` must remain gateway-agnostic. Save a Draft before opening a gateway and submit only after verification.
+- Gateway failures/cancellations must leave a retrievable Draft. Do not use ERPNext `Payment Request` when the flow requires an embedded SPA checkout.
+- `window.open()` for receipt tabs must run synchronously inside the original payment click handler; navigate the placeholder tab later after checkout completes.
+
 ## Commits and Pull Requests
 
 Split independent concerns into multiple atomic commits when appropriate; do not combine unrelated changes just to reduce the commit count. Use short Conventional Commit-style subjects such as `feat:`, `fix:`, `docs:`, or `chore:` (imperative and specific). Branch from `develop`, keep each commit focused, and target pull requests at `develop`. Describe the behavior and validation performed, link the relevant issue, and include screenshots or a short recording for UI changes. Do not commit credentials, generated dependencies, or throwaway bench scripts.
