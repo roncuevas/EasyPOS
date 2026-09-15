@@ -217,7 +217,7 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
 
   const columns = useMemo(() => {
     if (!containerWidth) return 4;
-    if (containerWidth < 600) return 1;
+    if (window.matchMedia("(max-width: 599px)").matches) return 1;
     return Math.max(2, Math.min(8, Math.floor((containerWidth + GRID_GAP) / (CARD_MIN_WIDTH + GRID_GAP))));
   }, [containerWidth]);
   const rowHeight = columns === 1 ? MOBILE_ROW_HEIGHT : CARD_HEIGHT;

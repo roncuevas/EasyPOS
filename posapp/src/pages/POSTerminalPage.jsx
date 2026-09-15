@@ -62,16 +62,15 @@ const POSTerminalPage = () => {
       </div>
 
       <div className="pos-terminal-panels" style={{ flex: 1, display: "flex", padding: "12px 16px 16px", gap: 16, minHeight: 0 }}>
-        {activePane === "products" ? (
-          <div className="pos-terminal-pane">
-            <ItemGroup selectedGroup={activeItemGroup} onChangeGroup={setActiveItemGroup} />
-            <Items
-              selectedGroup={activeItemGroup}
-              searchText={searchText}
-              onSearchResolved={() => setSearchText("")}
-            />
-          </div>
-        ) : (
+        <div className={`pos-terminal-pane pos-terminal-products-pane ${activePane === "products" ? "" : "is-hidden"}`}>
+          <ItemGroup selectedGroup={activeItemGroup} onChangeGroup={setActiveItemGroup} />
+          <Items
+            selectedGroup={activeItemGroup}
+            searchText={searchText}
+            onSearchResolved={() => setSearchText("")}
+          />
+        </div>
+        {activePane === "cart" && (
           <div className="pos-terminal-pane pos-terminal-cart-pane">
             <Cart />
           </div>

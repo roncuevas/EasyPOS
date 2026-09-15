@@ -1527,6 +1527,15 @@
   gap: var(--terminal-pane-gap);
 }
 
+.pos-terminal-products-pane.is-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .pos-terminal-pane > .pos-items-panel {
   flex: 1 !important;
   height: auto !important;
