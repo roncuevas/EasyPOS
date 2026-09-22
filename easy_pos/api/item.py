@@ -559,6 +559,7 @@ def search_item(
 			Item.has_serial_no,
 			Item.has_batch_no,
 			Item.is_stock_item,
+			Item.allow_negative_stock,
 			Item.has_variants,
 		)
 		.distinct()

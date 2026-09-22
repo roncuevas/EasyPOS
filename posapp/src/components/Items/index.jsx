@@ -29,6 +29,7 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
     <div
       className={`pos-item-card ${inCart ? "in-cart" : ""} ${outOfStock ? "out-of-stock" : ""} ${stockBlocked ? "stock-blocked" : ""}`}
       onClick={() => { if (!stockBlocked) onAdd(item); }}
+      aria-disabled={stockBlocked}
     >
       {inCart && (
         <div className="pos-item-check-badge">
@@ -215,12 +216,13 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
     return () => observer.disconnect();
   }, []);
 
+  const isCompactLayout = window.matchMedia("(max-width: 599px)").matches;
   const columns = useMemo(() => {
     if (!containerWidth) return 4;
-    if (window.matchMedia("(max-width: 599px)").matches) return 1;
+    if (isCompactLayout) return 1;
     return Math.max(2, Math.min(8, Math.floor((containerWidth + GRID_GAP) / (CARD_MIN_WIDTH + GRID_GAP))));
-  }, [containerWidth]);
-  const rowHeight = columns === 1 ? MOBILE_ROW_HEIGHT : CARD_HEIGHT;
+  }, [containerWidth, isCompactLayout]);
+  const rowHeight = isCompactLayout ? MOBILE_ROW_HEIGHT : CARD_HEIGHT;
 
   // Summed rather than a straight item_code → qty map — a serial/batch
   // tracked item can have several rows for the same item_code (one per

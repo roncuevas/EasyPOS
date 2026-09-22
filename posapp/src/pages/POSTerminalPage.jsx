@@ -16,10 +16,15 @@ const POSTerminalPage = () => {
   const [activePane, setActivePane] = useState("products");
   const cartItemCount = useCartStore((state) => state.items.length);
 
-  const handleCameraDetected = useCallback((code) => {
-    setShowCameraScanner(false);
+  const handleScan = useCallback((code) => {
+    setActivePane("products");
     setSearchText(code);
   }, []);
+
+  const handleCameraDetected = useCallback((code) => {
+    setShowCameraScanner(false);
+    handleScan(code);
+  }, [handleScan]);
 
   useEffect(() => {
     setTopbar({
@@ -35,7 +40,7 @@ const POSTerminalPage = () => {
   // search box first — feeds the scanned code through the same searchText
   // state the box uses, so it goes through Items' existing debounce/auto-add
   // flow (see AUTO_ADD_MATCH_TYPES in components/Items) with no duplicated logic.
-  useBarcodeScanner({ onScan: setSearchText, enabled: !showCameraScanner });
+  useBarcodeScanner({ onScan: handleScan, enabled: !showCameraScanner });
 
   return (
     <>

@@ -1268,11 +1268,11 @@
 
 .pos-item-card.out-of-stock {
   cursor: pointer;
-  opacity: 0.55;
 }
 
 .pos-item-card.stock-blocked {
   cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .pos-item-check-badge {

@@ -25,6 +25,10 @@
     width: clamp(340px, 30vw, 380px);
     flex: 0 0 clamp(340px, 30vw, 380px);
   }
+
+  .cart-items-panel {
+    min-height: 0;
+  }
 }
 
 .cart-header-bar {
