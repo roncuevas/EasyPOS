@@ -64,9 +64,10 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
 
   const hasStock = resolvedVariant && resolvedVariant.stock !== null && resolvedVariant.stock !== undefined;
   const outOfStock = hasStock && resolvedVariant.stock <= 0;
+  const stockBlocked = outOfStock && !resolvedVariant?.is_negative_stock_allowed;
 
   const handleAdd = () => {
-    if (!resolvedVariant || outOfStock) return;
+    if (!resolvedVariant || stockBlocked) return;
     onAdd(resolvedVariant, qty);
     onClose();
   };
@@ -85,7 +86,7 @@ const ItemVariantModal = ({ templateItem, onClose, onAdd }) => {
           <button
             type="button"
             className="pos-btn pos-btn-primary"
-            disabled={!resolvedVariant || outOfStock}
+            disabled={!resolvedVariant || stockBlocked}
             onClick={handleAdd}
           >
             Add to Cart

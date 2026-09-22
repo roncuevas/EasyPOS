@@ -1267,6 +1267,10 @@
 }
 
 .pos-item-card.out-of-stock {
+  cursor: pointer;
+}
+
+.pos-item-card.stock-blocked {
   cursor: not-allowed;
   opacity: 0.55;
 }
@@ -1482,6 +1486,75 @@
 }
 
 /* Mobile shell ----------------------------------------------------------- */
+.pos-terminal-tabs {
+  display: none;
+  gap: var(--terminal-tab-gap);
+  padding: var(--terminal-tab-padding-top) var(--terminal-tab-padding-inline) 0;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--color-border-soft);
+}
+
+.pos-terminal-tabs button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+  padding: var(--terminal-tab-padding-y) var(--terminal-tab-padding-x) var(--terminal-tab-padding-bottom);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pos-terminal-tabs button.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.pos-terminal-tabs button i {
+  margin-right: var(--terminal-tab-icon-gap);
+}
+
+.pos-terminal-tab-count {
+  margin-left: var(--terminal-tab-count-gap);
+  padding: var(--terminal-tab-count-padding-y) var(--terminal-tab-count-padding-x);
+  border-radius: var(--terminal-tab-count-radius);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 10px;
+}
+
+.pos-terminal-pane {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: var(--terminal-pane-gap);
+}
+
+.pos-terminal-pane > .pos-items-panel {
+  flex: 1 !important;
+  height: auto !important;
+}
+
+.pos-terminal-products-pane {
+  flex: 1;
+}
+
+.pos-terminal-cart-pane > .cart-section {
+  width: 100%;
+  max-width: none;
+  flex: 1;
+}
+
+.pos-terminal-cart-pane {
+  flex: 0 0 auto;
+}
+
+.pos-terminal-cart-pane {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 /* The desktop shell uses a vertical icon rail and a two-pane terminal. On a
    phone, reclaim that horizontal space and let the route content scroll above
    a thumb-friendly bottom navigation bar. */
@@ -1606,10 +1679,35 @@
     gap: 10px !important;
   }
 
+  .pos-terminal-tabs {
+    display: flex;
+  }
+
+  .pos-terminal-pane.mobile-hidden {
+    display: none;
+  }
+
   .pos-items-panel {
     flex: 0 0 min(54vh, 520px) !important;
     height: min(54vh, 520px) !important;
     padding: 10px !important;
+  }
+
+  .pos-terminal-pane > .pos-items-panel {
+    flex: 1 1 auto !important;
+    height: auto !important;
+  }
+
+  .pos-terminal-cart-pane > .cart-section {
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 100%;
+  }
+
+  .pos-terminal-cart-pane > .cart-section > .cart-section-card {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
   }
 
   .pos-list-table-scroll {
@@ -1663,6 +1761,40 @@
 
   .pos-item-card {
     padding: 8px;
+  }
+
+  .pos-item-card {
+    display: grid;
+    grid-template-columns: var(--terminal-mobile-item-icon) minmax(0, 1fr) auto;
+    grid-template-rows: 1fr auto;
+    column-gap: var(--terminal-mobile-item-gap);
+    row-gap: var(--terminal-mobile-item-row-gap);
+    align-items: center;
+    text-align: left;
+    height: var(--terminal-mobile-item-height);
+    padding: var(--terminal-mobile-item-padding-y) var(--terminal-mobile-item-padding-x);
+  }
+
+  .pos-item-icon {
+    grid-row: 1 / span 2;
+    width: var(--terminal-mobile-item-icon);
+    height: var(--terminal-mobile-item-icon);
+    margin: 0;
+  }
+
+  .pos-item-name,
+  .pos-item-price-row {
+    grid-column: 2;
+  }
+
+  .pos-item-price-row {
+    margin-top: 0;
+  }
+
+  .pos-item-stepper {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    margin: 0;
   }
 
   .modal-dialog {
