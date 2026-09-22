@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Easy POS",
   "scripts": {
-    "postinstall": "cd posapp && yarn install && if [ -f ../../sites/common_site_config.json ]; then yarn build; else echo 'Skipping POS build: run this from a Frappe bench or use yarn build from posapp/.'; fi",
+    "postinstall": "cd posapp && yarn install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cd posapp && yarn dev",
     "build": "cd posapp && yarn build"

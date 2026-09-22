@@ -115,20 +115,6 @@ bench get-app https://github.com/aashishvashisht6/EasyPOS --branch develop
 bench install-app easy_pos
 ```
 
-The app's installation/build step must run from the app root so the nested
-Vite POS is compiled and its hashed assets are written to
-`easy_pos/public/posapp/assets/`:
-
-```bash
-cd apps/easy_pos
-yarn install --frozen-lockfile
-```
-
-The root `postinstall` script installs the POS dependencies and runs its
-production build automatically. If the deployment image does not run the
-app's root `yarn install`, run `yarn build` from `apps/easy_pos/posapp` as an
-explicit release step before restarting the bench.
-
 ### Frontend development
 
 ```bash
