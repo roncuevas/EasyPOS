@@ -93,6 +93,10 @@ jobs:
           bench get-app payments --branch version-15
           bench get-app easy_pos $GITHUB_WORKSPACE
           bench setup requirements --dev
+          cd apps/easy_pos
+          yarn install --frozen-lockfile
+          test -n "$(find easy_pos/public/posapp/assets -maxdepth 1 -name 'index-*.js' -print -quit)"
+          cd /home/runner/frappe-bench
           bench new-site --db-root-password root --admin-password admin test_site
           bench --site test_site install-app erpnext
           bench --site test_site install-app payments
