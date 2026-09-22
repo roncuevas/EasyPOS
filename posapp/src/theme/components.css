@@ -1267,8 +1267,12 @@
 }
 
 .pos-item-card.out-of-stock {
-  cursor: not-allowed;
+  cursor: pointer;
   opacity: 0.55;
+}
+
+.pos-item-card.stock-blocked {
+  cursor: not-allowed;
 }
 
 .pos-item-check-badge {

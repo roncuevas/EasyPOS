@@ -1,6 +1,6 @@
 import frappe
 from frappe.query_builder.functions import IfNull
-from frappe.utils import flt, getdate, nowdate
+from frappe.utils import cint, flt, getdate, nowdate
 
 from easy_pos.api.pos import get_currency_precision
 
@@ -13,6 +13,7 @@ ITEM_FIELDS = [
 	"has_serial_no",
 	"has_batch_no",
 	"is_stock_item",
+	"allow_negative_stock",
 	"has_variants",
 ]
 
@@ -286,7 +287,13 @@ def _attach_stock_and_rate(items, warehouse, price_list, customer=None):
 	rate_map = _get_rate_map(item_codes, price_list, customer)
 	tax_map = _get_item_tax_map(items, warehouse)
 	bundle_codes = _get_bundle_item_codes(item_codes)
+	global_allow_negative_stock = cint(frappe.db.get_single_value("Stock Settings", "allow_negative_stock"))
 	for item in items:
+		# Match ERPNext v16's stock policy: Stock Settings may allow negative
+		# stock globally, and an Item may opt in independently. The terminal uses
+		# this resolved flag only for the pre-cart guard; Sales Invoice submission
+		# remains the final authority through ERPNext's stock ledger validation.
+		item.is_negative_stock_allowed = bool(global_allow_negative_stock or cint(item.allow_negative_stock))
 		# A variant template (has_variants=1) isn't sellable itself — its own
 		# stock/rate are meaningless until a specific variant is picked via
 		# get_item_variants, so both stay None the way they do before a

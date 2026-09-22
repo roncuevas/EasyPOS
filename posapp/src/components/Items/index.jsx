@@ -20,15 +20,15 @@ const AUTO_ADD_MATCH_TYPES = new Set(["barcode", "serial_no", "batch_no", "item_
 const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, currencySymbol }) => {
   const hasStock = item.stock !== null && item.stock !== undefined;
   const outOfStock = hasStock && item.stock <= 0;
+  const stockBlocked = outOfStock && !item.is_negative_stock_allowed;
   // One row per unit — "+" would imply bumping an existing row's qty, which
   // addItem/updateItemQty(ByCode) no longer allow for these. Add another unit
   // by clicking/scanning the item again, which appends its own new row.
   const isTracked = !!item.has_serial_no || !!item.has_batch_no;
   return (
     <div
-      className={`pos-item-card ${inCart ? "in-cart" : ""} ${outOfStock ? "out-of-stock" : ""}`}
-      onClick={() => { if (!outOfStock) onAdd(item); }}
-      aria-disabled={outOfStock}
+      className={`pos-item-card ${inCart ? "in-cart" : ""} ${outOfStock ? "out-of-stock" : ""} ${stockBlocked ? "stock-blocked" : ""}`}
+      onClick={() => { if (!stockBlocked) onAdd(item); }}
     >
       {inCart && (
         <div className="pos-item-check-badge">
@@ -78,7 +78,7 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
           <div className="pos-item-stepper">
             <button
               type="button"
-              disabled={qty <= 1 || outOfStock}
+              disabled={qty <= 1 || stockBlocked}
               onClick={(e) => { e.stopPropagation(); onDecrement(item.item_code); }}
             >
               −
@@ -86,7 +86,7 @@ const ItemCard = memo(({ item, qty, inCart, onAdd, onIncrement, onDecrement, cur
             <span>{qty}</span>
             <button
               type="button"
-              disabled={outOfStock || isTracked}
+              disabled={stockBlocked || isTracked}
               title={isTracked ? "Click/scan the item again to add another unit" : undefined}
               onClick={(e) => { e.stopPropagation(); onIncrement(item.item_code); }}
             >
@@ -149,13 +149,6 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
       const result = await searchItem(query, warehouse, priceList, customer, posProfile);
       if (cancelled || !result) return;
 
-      const scannedOutOfStock =
-        AUTO_ADD_MATCH_TYPES.has(result.match_type) &&
-        result.items.length === 1 &&
-        result.items[0].stock !== null &&
-        result.items[0].stock !== undefined &&
-        result.items[0].stock <= 0;
-
       // A resolved template (e.g. an exact item_code match on a variant
       // parent) can't be added directly — it has no rate/stock of its own —
       // so it opens the attribute picker instead of the usual auto-add.
@@ -171,7 +164,14 @@ const Items = ({ selectedGroup, searchText = "", onSearchResolved }) => {
         return;
       }
 
-      if (AUTO_ADD_MATCH_TYPES.has(result.match_type) && result.items.length === 1 && !scannedOutOfStock) {
+      const scannedItem = result.items.length === 1 ? result.items[0] : null;
+      const scannedStockBlocked = scannedItem
+        && scannedItem.stock !== null
+        && scannedItem.stock !== undefined
+        && scannedItem.stock <= 0
+        && !scannedItem.is_negative_stock_allowed;
+
+      if (AUTO_ADD_MATCH_TYPES.has(result.match_type) && result.items.length === 1 && !scannedStockBlocked) {
         const item = result.items[0];
         if (!hasOpeningEntry) {
           openOpeningModal();
